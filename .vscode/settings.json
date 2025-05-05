@@ -3,7 +3,6 @@
         "*": false,
         "plaintext": false,
         "markdown": false,
-        "scminput": false,
-        "php": false
+        "scminput": false
     }
 }
