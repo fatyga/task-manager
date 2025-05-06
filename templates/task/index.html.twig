@@ -1,13 +1,22 @@
-<h2>Your tasks:</h2>
 
-{%if tasks is empty %}
-<p>You don't have any tasks</p>
-{% else %}
-{% for task in tasks %}
-   <a href="{{task.getId()}}"><li>{{task.getTitle()}} - {{task.getDeadline()|date('Y-m-d H:i:s')}}</li> 
-   <a href="delete/{{task.getId()}}"><button>Delete</button></a>
-{% endfor %}
-{% endif %}
-</ul> 
-<br>
+{% extends 'base.html.twig' %}
+
+{% block title %}Your Tasks{% endblock %}
+
+{% block body %}
+  <h2>Your tasks:</h2>
+
+   {%if tasks is empty %}
+      <p>You don't have any tasks</p>
+   {% else %}
+      <ul>
+      {% for task in tasks %}
+         <a href="{{task.getId()}}"><li>{{task.getTitle()}} - {{task.getDeadline()|date('Y-m-d H:i:s')}}</li> 
+         <a href="delete/{{task.getId()}}"><button>Delete</button></a>
+      {% endfor %}
+      </ul>
+   {% endif %}
+ 
+   <br>
 <a href="new"><button>Add Task</button></a>
+{% endblock %}
