@@ -20,14 +20,13 @@ class TaskType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder->add('title', TextType::class)
-            ->add('deadline', DateType::class)
+            ->add('deadline', DateType::class, ['required' => false])
             ->add('save', SubmitType::class);
     }
 
-    public static function loadVAlidatorMetadata(ClassMetadata $metadata): void{
+    public static function loadValidatorMetadata(ClassMetadata $metadata): void{
         $metadata->addPropertyConstraint('title', new NotBlank());
 
-        $metadata->addPropertyConstraint('deadline', new NotBlank());
         $metadata->addPropertyConstraint('deadline', new Type(\DateTimeInterface::class));
     }
 
