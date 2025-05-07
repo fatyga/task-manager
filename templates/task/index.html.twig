@@ -4,6 +4,7 @@
 {% block title %}Your Tasks{% endblock %}
 
 {% block body %}
+
   <h2>Your tasks:</h2>
 
    {%if tasks is empty %}
@@ -11,12 +12,15 @@
    {% else %}
       <ul>
       {% for task in tasks %}
-         <a href="{{task.getId()}}"><li>{{task.getTitle()}} - {{task.getDeadline()|date('Y-m-d H:i:s')}}</li> 
-         <a href="delete/{{task.getId()}}"><button>Delete</button></a>
+         <a href="task/{{task.getId()}}"><li>{{task.getTitle()}} - {{task.getDeadline()|date('Y-m-d H:i:s')}}</li> 
+         <a href="task/delete/{{task.getId()}}"><button>Delete</button></a>
       {% endfor %}
       </ul>
    {% endif %}
  
    <br>
-<a href="new"><button>Add Task</button></a>
+   <a href="task/new"><button>Add Task</button></a>
+   <div class="mb-3">
+      You are logged in as {{ app.user.userIdentifier }} <a href="{{ path('app_logout') }}">Logout</a>
+   </div>
 {% endblock %}

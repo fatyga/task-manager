@@ -15,7 +15,7 @@ use Symfony\Component\Routing\Attribute\Route;
 
 class TaskController extends AbstractController
 {
-    #[Route('/task/index', name: 'task_index')]
+    #[Route('/', name: 'task_index')]
     public function index(EntityManagerInterface $entityManager): Response
     {
         $tasks = $entityManager->getRepository(Task::class)->findAll();
