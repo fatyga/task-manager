@@ -12,7 +12,9 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Attribute\Route;
 
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
+#[IsGranted('ROLE_USER')]
 class TaskController extends AbstractController
 {
     #[Route('/', name: 'task_index')]
@@ -49,6 +51,11 @@ class TaskController extends AbstractController
     {
         $task = $entityManager->getRepository(Task::class)->find($id);
 
+        // TODO: is this check necessary?
+        if($task == null){
+            return $this->redirectToRoute('task_index');
+        }
+
         $form = $this->createForm(TaskType::class, $task);
 
         $form->handleRequest($request);
@@ -65,11 +72,15 @@ class TaskController extends AbstractController
     }
 
     #[Route('/task/delete/{id}', name: 'task_delete')]
-    public function delete(EntityManagerInterface $entityManager, int $id){
+    public function delete(EntityManagerInterface $entityManager, int $id)
+    {
         $task = $entityManager->getRepository(Task::class)->find($id);
 
-        $entityManager->remove($task);
-        $entityManager->flush();
+        // TODO: is this check necessary?
+        if ($task != null) {
+            $entityManager->remove($task);
+            $entityManager->flush();
+        }
 
         return $this->redirectToRoute('task_index');
     }

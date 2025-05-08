@@ -12,6 +12,10 @@ class LoginController extends AbstractController
     #[Route(path: '/login', name: 'app_login')]
     public function login(AuthenticationUtils $authenticationUtils): Response
     {
+        // TODO: find better way to redirect authenticated users from here
+        if($this->isGranted('ROLE_USER')){
+            return $this->redirectToRoute('task_index');
+        }
         // get the login error if there is one
         $error = $authenticationUtils->getLastAuthenticationError();
 
