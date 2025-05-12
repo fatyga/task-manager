@@ -4,16 +4,31 @@
 {% block title %}Your Tasks{% endblock %}
 
 {% block body %}
+<div class="container md-4 pt-5">
+   
+  <h2 class="mb-4">Today</h2>
 
-  <h2>Your tasks:</h2>
+   <form method="POST">
+      <div class="input-group mb-4">
+         <input type="text" class="form-control" aria-label="Text input with checkbox">
+         <button class="btn btn-outline-secondary" type="button" id="button-addon2">Add</button>
+      </div>
+   </form>
+
+ <hr class="hr mb-4 w-75 mx-auto"></hr>
 
    {%if tasks is empty %}
       <p>You don't have any tasks</p>
    {% else %}
-      <ul>
+      <ul class="list-unstyled">
       {% for task in tasks %}
-         <a href="task/{{task.getId()}}"><li>{{task.getTitle()}} - {{task.getDeadline()|date('Y-m-d H:i:s')}}</li> 
-         <a href="task/delete/{{task.getId()}}"><button>Delete</button></a>
+      <a class="text-decoration-none text-body" href="task/{{task.getId()}}">
+         <li class="task p-2 my-2 shadow-sm border rounded">
+            <div class="fs-6">{{task.getTitle()}}</div>
+            <small class="text-light-emphasis fw-light">Due {{task.getDeadline()|date('D, M d')}}</small>
+         </li>
+      </a>
+         
       {% endfor %}
       </ul>
    {% endif %}
@@ -25,4 +40,5 @@
       You are logged in as {{ app.user.userIdentifier }} <a href="{{ path('app_logout') }}">Logout</a>
    </div>
    {% endif %}
+</div>
 {% endblock %}
