@@ -24,26 +24,25 @@ class TaskController extends AbstractController
 
         return $this->render('task/index.html.twig', ['tasks' => $tasks]);
     }
-    #[Route('/task/new')]
+
+    #[Route('/task/new', name: 'task_new')]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
         $task = new Task();
 
         $form = $this->createForm(TaskType::class, $task);
-
+        
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $task = $form->getData();
-
+            
             $entityManager->persist($task);
             $entityManager->flush();
-
-            return $this->redirectToRoute('task_index');
         }
-        return $this->render('task/new.html.twig', [
-            'form' => $form
-        ]);
+
+
+        return $this->json($task);
     }
 
     #[Route('/task/{id}', name: 'task_update')]
@@ -52,7 +51,7 @@ class TaskController extends AbstractController
         $task = $entityManager->getRepository(Task::class)->find($id);
 
         // TODO: is this check necessary?
-        if($task == null){
+        if ($task == null) {
             return $this->redirectToRoute('task_index');
         }
 
